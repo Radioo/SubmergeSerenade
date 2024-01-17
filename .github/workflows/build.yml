@@ -35,16 +35,29 @@ jobs:
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Configure
-        run: cmake -S . -B . -D CMAKE_C_COMPILER="cl.exe" -D CMAKE_CXX_COMPILER="cl.exe" -D CMAKE_BUILD_TYPE=${{env.BUILD_CONFIGURATION}}
+#      - name: Configure
+#        run: cmake -S . -B . -D CMAKE_C_COMPILER="cl.exe" -D CMAKE_CXX_COMPILER="cl.exe" -D CMAKE_BUILD_TYPE=${{env.BUILD_CONFIGURATION}}
 
-      - name: Install vcpkg
-        uses: microsoft/vcpkg-actions/setup-vcpkg@v1.1.0
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        id: runvcpkg
         with:
-          vcpkg-directory: ./vcpkg
+          # This specifies the location of vcpkg, where it is going to be restored from cache, or create from scratch.
+          vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+          # The Git commit id of vcpkg to be checked out. This is only needed because we are not using a submodule.
+          vcpkgGitCommitId: '${{ matrix.vcpkgCommitId}}'
+          # The vcpkg.json file, which will be part of cache key computation.
+          vcpkgJsonGlob: '**/vcpkg.json'
 
-      - name: Install iconv with vcpkg
-        run: ./vcpkg/vcpkg install iconv:x64-windows-static
+      - name: Prints output of run-vcpkg's action
+        run: echo "root='${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_ROOT_OUT }}', triplet='${{ steps.runvcpkg.outputs.RUNVCPKG_VCPKG_DEFAULT_TRIPLET_OUT }}'"
+
+      - name: Run CMake with vcpkg.json manifest
+        uses: lukka/run-cmake@v10
+        with:
+          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+          configurePreset: ninja-multi-vcpkg
+          buildPreset: ninja-multi-vcpkg
 
       - name: Build
         working-directory: ${{env.GITHUB_WORKSPACE}}
