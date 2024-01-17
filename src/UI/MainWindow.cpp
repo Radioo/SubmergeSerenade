@@ -5,6 +5,7 @@
 #include "MainWindow.hpp"
 
 #include <imgui.h>
+#include <iostream>
 #include <memory>
 #include <stacktrace>
 
@@ -28,14 +29,22 @@ void MainWindow::render() {
         }
     }
     catch(std::exception& e) {
+#ifdef NDEBUG
         ImGui::End();
 
         renderErrorPopup(e.what());
+#else
+        std::cout << e.what() << std::endl;
+#endif
     }
     catch(...) {
+#ifdef NDEBUG
         ImGui::End();
 
         renderErrorPopup(std::to_string(std::stacktrace::current()).c_str());
+#else
+        std::cout << std::to_string(std::stacktrace::current()) << std::endl;
+#endif
     }
 }
 

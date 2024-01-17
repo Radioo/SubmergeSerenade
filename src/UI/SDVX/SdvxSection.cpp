@@ -50,6 +50,9 @@ void SDVXSection::renderImportContent() {
     ImGui::InputInt("Version", &selectedVersion);
 
     if(ImGui::Button("Load")) {
-
+        parseResultText = chartManager.parseMusicDb(selectedVersion, musicDbXmlPath);
     }
+
+    ImGui::SameLine();
+    ImGui::Text(parseResultText.c_str());
 }

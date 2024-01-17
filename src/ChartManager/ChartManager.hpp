@@ -4,11 +4,10 @@
 
 #ifndef CHARTMANAGER_HPP
 #define CHARTMANAGER_HPP
-
+#include <string>
 
 
 class ChartManager {
-
 };
 
 

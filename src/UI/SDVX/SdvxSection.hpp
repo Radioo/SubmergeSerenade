@@ -23,6 +23,7 @@ private:
     SDVXChartManager chartManager = SDVXChartManager();
     char musicDbXmlPath[_MAX_PATH];
     int selectedVersion = 1;
+    std::string parseResultText = "Ready";
 };
 
 

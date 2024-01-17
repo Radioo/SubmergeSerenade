@@ -43,6 +43,18 @@ if(pugixml_ADDED)
     target_include_directories(pugixml INTERFACE ${pugixml_SOURCE_DIR}/src)
 endif()
 
+CPMAddPackage(
+        NAME nlohmann_json
+        VERSION 3.11.3
+        # the git repo is incredibly large, so we download the archived include directory
+        URL https://github.com/nlohmann/json/releases/download/v3.11.3/include.zip
+)
+
+if (nlohmann_json_ADDED)
+    add_library(nlohmann_json INTERFACE IMPORTED)
+    target_include_directories(nlohmann_json INTERFACE ${nlohmann_json_SOURCE_DIR}/include)
+endif()
+
 add_executable(SubmergeSerenade src/main.cpp
         src/UI/MainWindow.cpp
         src/UI/MainWindow.hpp
@@ -63,6 +75,11 @@ add_executable(SubmergeSerenade src/main.cpp
         src/ChartManager/Parsers/SDVX1Parser.hpp
         src/ChartManager/XMLHelper.cpp
         src/ChartManager/XMLHelper.hpp
+        src/ChartManager/Structures/SDVX1StaticSong.hpp
+        src/jsonExtended.hpp
 )
 
-target_link_libraries(SubmergeSerenade imgui d3d12 dxgi nfd pugixml Iconv::Iconv)
+target_link_libraries(SubmergeSerenade imgui d3d12 dxgi nfd pugixml Iconv::Iconv nlohmann_json)
+
+# Copy static folder to build directory
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/static DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
