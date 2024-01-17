@@ -38,6 +38,14 @@ jobs:
       - name: Configure
         run: cmake -S . -B . -D CMAKE_C_COMPILER="cl.exe" -D CMAKE_CXX_COMPILER="cl.exe" -D CMAKE_BUILD_TYPE=${{env.BUILD_CONFIGURATION}}
 
+      - name: Install vcpkg
+        uses: microsoft/vcpkg-actions/setup-vcpkg@v1.1.0
+        with:
+          vcpkg-directory: ./vcpkg
+
+      - name: Install iconv with vcpkg
+        run: ./vcpkg/vcpkg install iconv:x64-windows-static
+
       - name: Build
         working-directory: ${{env.GITHUB_WORKSPACE}}
         # Add additional options to the MSBuild command line here (like platform or verbosity level).
