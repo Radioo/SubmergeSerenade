@@ -42,6 +42,7 @@ jobs:
         uses: lukka/run-vcpkg@v11
         id: runvcpkg
         with:
+          runVcpkgInstall: true
           # This specifies the location of vcpkg, where it is going to be restored from cache, or create from scratch.
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
           # The Git commit id of vcpkg to be checked out. This is only needed because we are not using a submodule.
