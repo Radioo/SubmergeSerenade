@@ -12,6 +12,24 @@
 #include "SDVX/SdvxSection.hpp"
 
 MainWindow::MainWindow() {
+    const ImGuiIO& io = ImGui::GetIO();
+
+    ImVector<ImWchar> ranges;
+
+    constexpr ImWchar additionalRanges[] = {
+        0x2200, // Mathematical Operators
+        0x2600, // Miscellaneous Symbols
+        0x4E00, // CJK Unified Ideographs
+    };
+
+    ImFontGlyphRangesBuilder builder;
+    builder.AddRanges(additionalRanges);
+    builder.AddRanges(io.Fonts->GetGlyphRangesJapanese());
+    builder.BuildRanges(&ranges);
+
+    io.Fonts->AddFontFromFileTTF("font/NotoSansCJKjp-Medium.otf", 18.0f, nullptr, ranges.Data);
+    io.Fonts->Build();
+
     gameSections.push_back(std::make_unique<SDVXSection>());
 }
 

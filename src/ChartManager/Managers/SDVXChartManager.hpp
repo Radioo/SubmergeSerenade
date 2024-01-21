@@ -4,23 +4,29 @@
 
 #ifndef SDVXCHARTMANAGER_HPP
 #define SDVXCHARTMANAGER_HPP
-#include <cstdlib>
 #include <filesystem>
-#include <memory>
 #include <string>
 
 #include "../ChartManager.hpp"
-#include "../Enums/SDVXDifficulty.hpp"
+#include "../Enums/SDVXDiff.hpp"
 #include "../Structures/SDVXParsedSong.hpp"
+#include "../Structures/SDVXSong.hpp"
 
 class SDVXChartManager : public ChartManager {
 public:
+    std::vector<SDVXSong> currentSongs;
+
+    std::vector<SDVXParsedSong> newSongs;
+
     static SDVXDiff getDiff(int version, const std::string& name);
+    static std::string getDiffText(SDVXDiff diff);
 
     std::string parseMusicDb(int version, const std::filesystem::path& path);
 
 private:
     std::vector<SDVXParsedSong> parsedSongs;
+
+    std::optional<SDVXSong> findExistingSong(const std::string& title, const std::string& artist);
 };
 
 

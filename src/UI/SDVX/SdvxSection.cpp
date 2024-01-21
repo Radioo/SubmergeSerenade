@@ -55,4 +55,48 @@ void SDVXSection::renderImportContent() {
 
     ImGui::SameLine();
     ImGui::Text(parseResultText.c_str());
+
+    ImGui::BeginChild("Tables wrapper");
+
+    if(!chartManager.newSongs.empty()) {
+        ImGui::SeparatorText("New songs");
+
+        if(ImGui::BeginTable("SDVX New songs table", 5, defaultTableFlags)) {
+            ImGui::TableSetupColumn("");
+            ImGui::TableSetupColumn("Internal ID");
+            ImGui::TableSetupColumn("Title");
+            ImGui::TableSetupColumn("Artist");
+            ImGui::TableSetupColumn("Charts");
+            ImGui::TableHeadersRow();
+
+            for(auto& newSong : chartManager.newSongs) {
+                ImGui::TableNextRow();
+                ImGui::TableNextColumn();
+
+                ImGui::PushID(std::to_string(newSong.internalId).c_str());
+                if(ImGui::Button("Add")) {
+                    // TODO
+                }
+                ImGui::PopID();
+
+                ImGui::TableNextColumn();
+                ImGui::Text("%d", newSong.internalId);
+
+                ImGui::TableNextColumn();
+                ImGui::Text("%s", newSong.title.c_str());
+
+                ImGui::TableNextColumn();
+                ImGui::Text("%s", newSong.artist.c_str());
+
+                ImGui::TableNextColumn();
+                for(const auto& difficulty : newSong.difficulties) {
+                    ImGui::Text("%s %d", SDVXChartManager::getDiffText(difficulty.diff).c_str(), difficulty.level);
+                }
+            }
+        }
+
+        ImGui::EndTable();
+    }
+
+    ImGui::EndChild();
 }

@@ -4,7 +4,7 @@
 
 #ifndef SDVXPARSEDDIFFICULTY_HPP
 #define SDVXPARSEDDIFFICULTY_HPP
-#include "../Enums/SDVXDifficulty.hpp"
+#include "..\Enums\SDVXDiff.hpp"
 
 #include <cstdint>
 #include <optional>

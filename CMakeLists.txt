@@ -70,16 +70,23 @@ add_executable(SubmergeSerenade src/main.cpp
         src/UI/UIHelpers.hpp
         src/ChartManager/Structures/SDVXParsedSong.hpp
         src/ChartManager/Structures/SDVXParsedDifficulty.hpp
-        src/ChartManager/Enums/SDVXDifficulty.hpp
+        src/ChartManager/Enums/SDVXDiff.hpp
         src/ChartManager/Parsers/SDVX1Parser.cpp
         src/ChartManager/Parsers/SDVX1Parser.hpp
         src/ChartManager/XMLHelper.cpp
         src/ChartManager/XMLHelper.hpp
         src/ChartManager/Structures/SDVX1StaticSong.hpp
         src/jsonExtended.hpp
+        src/ChartManager/Structures/SDVXSong.hpp
+        src/ChartManager/Structures/SDVXEntry.hpp
+        src/ChartManager/Structures/SDVXChart.hpp
+        src/ChartManager/Structures/SDVXDifficulty.hpp
 )
 
 target_link_libraries(SubmergeSerenade imgui d3d12 dxgi nfd pugixml Iconv::Iconv nlohmann_json)
 
 # Copy static folder to build directory
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/static DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+# Copy font folder to build directory
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/font DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

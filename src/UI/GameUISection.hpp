@@ -24,7 +24,7 @@ public:
     virtual ~GameUISection() = default;
 
 protected:
-    static constexpr ImGuiTableFlags defaultTableFlags = ImGuiTableFlags_SizingFixedFit;
+    static constexpr ImGuiTableFlags defaultTableFlags = ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders;
 };
 
 #endif //GAMEUISECTION_HPP

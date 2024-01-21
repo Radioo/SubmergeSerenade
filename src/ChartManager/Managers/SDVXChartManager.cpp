@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include "../Parsers/SDVX1Parser.hpp"
+#include "../Structures/SDVXDifficulty.hpp"
 
 SDVXDiff SDVXChartManager::getDiff(const int version, const std::string& name) {
     if(version == 1) {
@@ -26,6 +27,23 @@ SDVXDiff SDVXChartManager::getDiff(const int version, const std::string& name) {
     throw std::runtime_error("Invalid version: " + std::to_string(version));
 }
 
+std::string SDVXChartManager::getDiffText(SDVXDiff diff) {
+    switch(diff) {
+        case SDVXDiff::NOVICE:
+            return "NOV";
+        case SDVXDiff::ADVANCED:
+            return "ADV";
+        case SDVXDiff::EXHAUST:
+            return "EXH";
+        case SDVXDiff::INFINITE:
+            return "INF";
+        case SDVXDiff::MAXIMUM:
+            return "MXM";
+        default:
+            throw std::runtime_error("Invalid diff: " + std::to_string(static_cast<int>(diff)));
+    }
+}
+
 std::string SDVXChartManager::parseMusicDb(int version, const std::filesystem::path &path) {
     switch(version) {
         case 1:
@@ -35,5 +53,22 @@ std::string SDVXChartManager::parseMusicDb(int version, const std::filesystem::p
             throw std::runtime_error("Invalid version: " + std::to_string(version));
     }
 
+    for(auto& parsedSong : parsedSongs) {
+        if(auto existingSong = findExistingSong(parsedSong.title, parsedSong.artist); existingSong == std::nullopt) {
+            newSongs.push_back(parsedSong);
+        }
+    }
+
     return SDVXParsedSong::getParsedResultText(parsedSongs);
 }
+
+std::optional<SDVXSong> SDVXChartManager::findExistingSong(const std::string &title, const std::string &artist) {
+    for(auto& song : currentSongs) {
+        if(song.title == title && song.artist == artist) {
+            return song;
+        }
+    }
+
+    return std::nullopt;
+}
+

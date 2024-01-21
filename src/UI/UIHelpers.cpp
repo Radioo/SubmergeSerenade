@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <imgui.h>
 
 void UIHelpers::openFileDialog(char* outPath, const std::vector<nfdfilteritem_t> &filters) {
     NFD_Init();
@@ -26,4 +27,14 @@ void UIHelpers::openFileDialog(char* outPath, const std::vector<nfdfilteritem_t>
     }
 
     NFD_Quit();
+}
+
+void UIHelpers::HelpMarker(const char *desc) {
+    ImGui::TextDisabled("(?)");
+    if (ImGui::BeginItemTooltip()) {
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+        ImGui::TextUnformatted(desc);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
+    }
 }
