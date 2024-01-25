@@ -5,7 +5,7 @@
 #ifndef SDVXDIFF_HPP
 #define SDVXDIFF_HPP
 
-enum class SDVXDiff {
+enum class SDVXDiff : std::uint8_t {
     NOVICE = 0,
     ADVANCED = 1,
     EXHAUST = 2,

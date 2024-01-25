@@ -28,7 +28,7 @@ std::vector<SDVXParsedSong> SDVX1Parser::parse(const std::filesystem::path &musi
             SDVXDiff diff = SDVXChartManager::getDiff(1, difficultyNode.attribute("attr").as_string());
             std::uint8_t level = difficultyNode.child("difnum").text().as_uint();
 
-            parsedSong.difficulties.emplace_back(diff, level);
+            parsedSong.difficulties.emplace_back(diff, level, 2);
         }
 
         songs.push_back(parsedSong);

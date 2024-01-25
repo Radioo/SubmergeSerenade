@@ -15,6 +15,7 @@ struct SDVXParsedSong {
     std::uint32_t internalId;
     std::string title;
     std::string artist;
+    std::optional<std::uint8_t> infiniteVersion;
     std::vector<SDVXParsedDifficulty> difficulties;
 
     static std::string getParsedResultText(const std::vector<SDVXParsedSong>& parsedSongs) {

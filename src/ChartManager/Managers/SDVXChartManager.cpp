@@ -44,6 +44,33 @@ std::string SDVXChartManager::getDiffText(SDVXDiff diff) {
     }
 }
 
+void SDVXChartManager::addNewSong(const SDVXParsedSong &parsedSong, int version) {
+    const std::uint32_t newSongId = currentSongs.empty() ? 1 : currentSongs.back().id + 1;
+    const std::uint32_t newEntryId = currentEntries.empty() ? 1 : currentEntries.back().id + 1;
+
+    currentSongs.push_back({newSongId, parsedSong.title, parsedSong.artist});
+    currentEntries.push_back({newEntryId, newSongId, static_cast<std::uint8_t>(version), parsedSong.internalId, parsedSong.infiniteVersion});
+
+    for(const auto& difficulty : parsedSong.difficulties) {
+        const std::uint32_t newChartId = currentCharts.empty() ? 1 : currentCharts.back().id + 1;
+        const std::uint32_t newDifficultyId = currentDifficulties.empty() ? 1 : currentDifficulties.back().id + 1;
+
+        currentCharts.push_back({newChartId, newSongId});
+        currentDifficulties.emplace_back(
+            newDifficultyId,
+            newChartId,
+            static_cast<std::uint8_t>(version),
+            std::to_underlying<SDVXDiff>(difficulty.diff),
+            difficulty.level,
+            difficulty.limited
+        );
+    }
+
+    erase_if(newSongs, [&](const SDVXParsedSong& song) {
+        return song.internalId == parsedSong.internalId;
+    });
+}
+
 std::string SDVXChartManager::parseMusicDb(int version, const std::filesystem::path &path) {
     switch(version) {
         case 1:

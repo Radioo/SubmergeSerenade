@@ -12,6 +12,7 @@
 struct SDVXParsedDifficulty {
     SDVXDiff diff;
     std::uint8_t level;
+    std::uint8_t limited;
     std::optional<std::uint8_t> infiniteVersion;
     std::optional<std::uint32_t> maxExScore;
 };
