@@ -15,8 +15,10 @@
 #include "../Structures/SDVXParsedSong.hpp"
 #include "../Structures/SDVXSong.hpp"
 
-class SDVXChartManager : public ChartManager {
+class SDVXChartManager final : public ChartManager {
 public:
+    SDVXChartManager();
+
     std::vector<SDVXSong> currentSongs;
     std::vector<SDVXEntry> currentEntries;
     std::vector<SDVXChart> currentCharts;
@@ -30,6 +32,8 @@ public:
     void addNewSong(const SDVXParsedSong& parsedSong, int version);
 
     std::string parseMusicDb(int version, const std::filesystem::path& path);
+    void loadData() override;
+    void commitChanges() const override;
 
 private:
     std::vector<SDVXParsedSong> parsedSongs;

@@ -6,6 +6,7 @@
 
 #include <pugixml.hpp>
 #include <fstream>
+#include <csv.hpp>
 
 #include "../XMLHelper.hpp"
 #include "../Managers/SDVXChartManager.hpp"

@@ -4,10 +4,13 @@
 
 #ifndef CHARTMANAGER_HPP
 #define CHARTMANAGER_HPP
-#include <string>
 
 
 class ChartManager {
+public:
+    virtual void commitChanges() const = 0;
+    virtual void loadData() = 0;
+    virtual ~ChartManager() = default;
 };
 
 

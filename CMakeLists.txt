@@ -55,6 +55,18 @@ if (nlohmann_json_ADDED)
     target_include_directories(nlohmann_json INTERFACE ${nlohmann_json_SOURCE_DIR}/include)
 endif()
 
+CPMAddPackage(
+        NAME csv-parser
+        GITHUB_REPOSITORY vincentlaucsb/csv-parser
+        GIT_TAG 2.1.3
+        DOWNLOAD_ONLY YES
+)
+
+if(csv-parser_ADDED)
+    add_library(csv-parser INTERFACE)
+    target_include_directories(csv-parser INTERFACE ${csv-parser_SOURCE_DIR}/single_include)
+endif()
+
 add_executable(SubmergeSerenade src/main.cpp
         src/UI/MainWindow.cpp
         src/UI/MainWindow.hpp
@@ -81,9 +93,11 @@ add_executable(SubmergeSerenade src/main.cpp
         src/ChartManager/Structures/SDVXEntry.hpp
         src/ChartManager/Structures/SDVXChart.hpp
         src/ChartManager/Structures/SDVXDifficulty.hpp
+        src/ChartManager/CsvStructure.cpp
+        src/ChartManager/CsvStructure.hpp
 )
 
-target_link_libraries(SubmergeSerenade imgui d3d12 dxgi nfd pugixml Iconv::Iconv nlohmann_json)
+target_link_libraries(SubmergeSerenade imgui d3d12 dxgi nfd pugixml Iconv::Iconv nlohmann_json csv-parser)
 
 # Copy static folder to build directory
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/static DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

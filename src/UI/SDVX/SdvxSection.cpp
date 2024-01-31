@@ -163,6 +163,11 @@ void SDVXSection::renderImportContent() {
     }
 
     ImGui::SameLine();
+    if(ImGui::Button("Commit")) {
+        chartManager.commitChanges();
+    }
+
+    ImGui::SameLine();
     ImGui::Text(parseResultText.c_str());
 
     ImGui::BeginChild("Tables wrapper");
